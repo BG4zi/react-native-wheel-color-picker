@@ -880,8 +880,8 @@ const ss = StyleSheet.create({
 		// padding: 16,
 	},
 	swatch: {
-		width: 50,
-		height: 50,
+		width: 500,
+		height: 500,
 		borderRadius: 10,
 		// borderWidth: 1,
 		borderColor: '#8884',
