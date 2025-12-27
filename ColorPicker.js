@@ -184,6 +184,8 @@ module.exports = class ColorPicker extends Component {
 		swatchesLast: true, // if false swatches are shown before wheel
 		swatchesOnly: false, // show swatch only and hide wheel and slider
 		swatchesHitSlop: undefined, // defines how far the touch event can start away from the swatch
+        swatchSize: 20,        //  swatch diameter
+        swatchTouchSize: 30,   //  swatch touch area box size
 		color: '#ffffff', //  color of the color picker
 		palette: PALETTE, // palette colors of swatches
 		shadeWheelThumb: true, // if true the wheel thumb color is shaded
@@ -666,11 +668,16 @@ module.exports = class ColorPicker extends Component {
 	}
 	renderSwatches() {
 		// console.log('RENDER SWATCHES >>', this.props.palette)
+        const sw = this.props.swatchSize ?? 20;
+        const tw = this.props.swatchTouchSize ?? Math.round(sw * 1.5); // otomatik oran
+        const swR = sw / 2;
+        const twR = tw / 2;
+      
 		this.swatchesUpdatedAt = this.state.swatchesUpdatedAt
 		this.swatches = this.props.palette.map((c, i) => (
-			<View style={[ss.swatch, { backgroundColor: c }]} key={'S' + i} hitSlop={this.props.swatchesHitSlop}>
+			<View style={[ss.swatch, { backgroundColor: c, width: sw, height: sw, borderRadius: swR}]} key={'S' + i} hitSlop={this.props.swatchesHitSlop}>
 				<TouchableWithoutFeedback onPress={x => this.onSwatchPress(c, i)} hitSlop={this.props.swatchesHitSlop}>
-					<Animated.View style={[ss.swatchTouch, { backgroundColor: c, transform: [{ scale: this.swatchAnim[i].interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.666, 1, 0.666] }) }] }]} />
+					<Animated.View style={[ss.swatchTouch, { backgroundColor: c, width: sw, height: sw, borderRadius: swR, transform: [{ scale: this.swatchAnim[i].interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.666, 1, 0.666] }) }] }]} />
 				</TouchableWithoutFeedback>
 			</View>
 		))
@@ -679,9 +686,9 @@ module.exports = class ColorPicker extends Component {
 		this.discsUpdatedAt = this.state.discsUpdatedAt
 		const length = Math.max(this.props.discreteLength, 2)
 		this.disc = (`1`).repeat(length).split('').map((c, i) => (
-			<View style={[ss.swatch, { backgroundColor: this.state.hueSaturation }]} key={'D' + i} hitSlop={this.props.swatchesHitSlop}>
+			<View style={[ss.swatch, { backgroundColor: this.state.hueSaturation, width: sw, height: sw, borderRadius: swR}]} key={'D' + i} hitSlop={this.props.swatchesHitSlop}>
 				<TouchableWithoutFeedback onPress={x => this.onDiscPress(c, i)} hitSlop={this.props.swatchesHitSlop}>
-					<Animated.View style={[ss.swatchTouch, { backgroundColor: this.state.hueSaturation, transform: [{ scale: this.discAnim[i].interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.666, 1, 0.666] }) }] }]}>
+					<Animated.View style={[ss.swatchTouch, { backgroundColor: this.state.hueSaturation, width: sw, height: sw, borderRadius: swR, transform: [{ scale: this.discAnim[i].interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.666, 1, 0.666] }) }] }]}>
 						<View style={[ss.wheelImg, { backgroundColor: '#000', opacity: 1 - (i >= (length-1) ? 1 : (i * 1/(length-1))) }]}></View>
 					</Animated.View>
 				</TouchableWithoutFeedback>
