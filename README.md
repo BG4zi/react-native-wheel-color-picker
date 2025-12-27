@@ -120,6 +120,10 @@ export default App
 
 `swatchesHitSlop: undefined` defines how far the touch event can start away from the swatch
 
+`swatchSize: 20` defines diameter of swatches
+
+`swatchTouchSize: 30` defines diameter of swatch touch box area
+
 `color: '#ffffff'` color of the color picker
 
 `palette: ['#000000','#888888','#ed1c24','#d11cd5','#1633e6','#00aeef','#00c85d','#57ff0a','#ffde17','#f26522']` palette colors of swatches
